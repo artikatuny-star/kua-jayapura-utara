@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem KUA Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="h-full bg-gradient-to-br from-green-50 to-emerald-100 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-green-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="20" r="8" />
+                            <path d="M50 28 L42 35 L42 45 L58 45 L58 35 Z" />
+                            <rect x="35" y="45" width="30" height="25" />
+                            <path d="M30 70 L70 70 L65 80 L35 80 Z" />
+                            <rect x="47" y="50" width="6" height="15" />
+                            <circle cx="40" cy="57" r="2" />
+                            <circle cx="60" cy="57" r="2" />
+                            <path d="M50 15 L50 5 M45 17 L40 12 M55 17 L60 12" stroke="currentColor" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">KUA Jayapura Utara</h1>
+                        <p class="text-sm text-gray-600">Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                    </div>
+                </div>
+                <button id="adminBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Admin Login
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-green-600 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8">
+                <button class="nav-btn text-white hover:text-green-200 py-4 px-2 border-b-2 border-transparent hover:border-green-200 transition-colors" data-section="home">
+                    🏠 Beranda
+                </button>
+                <button class="nav-btn text-white hover:text-green-200 py-4 px-2 border-b-2 border-transparent hover:border-green-200 transition-colors" data-section="mualaf">
+                    📋 Data Mualaf
+                </button>
+                <button class="nav-btn text-white hover:text-green-200 py-4 px-2 border-b-2 border-transparent hover:border-green-200 transition-colors" data-section="requirements">
+                    📄 Persyaratan
+                </button>
+                <button class="nav-btn text-white hover:text-green-200 py-4 px-2 border-b-2 border-transparent hover:border-green-200 transition-colors" data-section="schedule">
+                    📅 Jadwal Nikah
+                </button>
+                <button class="nav-btn text-white hover:text-green-200 py-4 px-2 border-b-2 border-transparent hover:border-green-200 transition-colors" data-section="profile">
+                    ℹ️ Profil
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Home Section -->
+        <section id="home" class="section-content fade-in">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Selamat Datang di KUA Jayapura Utara</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Sistem informasi terintegrasi untuk layanan KUA Kecamatan Jayapura Utara. 
+                    Melayani masyarakat Papua dengan sepenuh hati dalam urusan keagamaan, pernikahan, dan pembinaan mualaf.
+                </p>
+            </div>
+
+            <!-- Foto Gedung KUA -->
+            <div class="mb-12">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="h-64 bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center relative">
+                        <svg class="w-32 h-32 text-white opacity-20 absolute" viewBox="0 0 200 200" fill="currentColor">
+                            <rect x="20" y="80" width="160" height="100" rx="8"/>
+                            <rect x="40" y="60" width="120" height="40" rx="4"/>
+                            <rect x="60" y="40" width="80" height="30" rx="4"/>
+                            <circle cx="100" cy="25" r="8"/>
+                            <rect x="90" y="100" width="20" height="40"/>
+                            <rect x="50" y="110" width="15" height="15"/>
+                            <rect x="135" y="110" width="15" height="15"/>
+                            <rect x="70" y="130" width="15" height="15"/>
+                            <rect x="115" y="130" width="15" height="15"/>
+                        </svg>
+                        <div class="text-center z-10">
+                            <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
+                            <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">📍 Alamat</h4>
+                                <p class="text-gray-600">Jl. Raya Sentani No. 45, Jayapura Utara, Kota Jayapura, Papua 99351</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">📞 Kontak</h4>
+                                <p class="text-gray-600">Telp: (0967) 581234<br>Email: kua.jayaputara@kemenag.go.id</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">📋</div>
+                    <h3 class="text-xl font-semibold mb-2">Data Mualaf</h3>
+                    <p class="text-gray-600">Lihat daftar mualaf yang telah mengikrar syahadat di KUA kami</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">📄</div>
+                    <h3 class="text-xl font-semibold mb-2">Persyaratan</h3>
+                    <p class="text-gray-600">Download persyaratan mualaf dan nikah dalam format PDF</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">📅</div>
+                    <h3 class="text-xl font-semibold mb-2">Jadwal Nikah</h3>
+                    <p class="text-gray-600">Cek jadwal pernikahan yang akan dilaksanakan</p>
+                </div>
+            </div>
+
+            <!-- Foto Pelayanan KUA -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Pelayanan KUA Jayapura Utara</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Pelayanan Nikah -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="h-40 bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 100 100">
+                                <path d="M30 60 Q30 40 50 40 Q70 40 70 60 L70 80 L30 80 Z"/>
+                                <circle cx="40" cy="50" r="3"/>
+                                <circle cx="60" cy="50" r="3"/>
+                                <path d="M45 55 Q50 60 55 55" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M35 30 Q50 20 65 30" stroke="currentColor" stroke-width="3" fill="none"/>
+                                <circle cx="35" cy="30" r="2"/>
+                                <circle cx="65" cy="30" r="2"/>
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-2">Akad Nikah</h4>
+                            <p class="text-sm text-gray-600">Pelayanan akad nikah dan pencatatan pernikahan</p>
+                        </div>
+                    </div>
+
+                    <!-- Bimbingan Mualaf -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="h-40 bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 100 100">
+                                <circle cx="50" cy="35" r="12"/>
+                                <path d="M30 65 Q30 55 40 55 L60 55 Q70 55 70 65 L70 80 L30 80 Z"/>
+                                <rect x="45" y="20" width="10" height="8" rx="2"/>
+                                <path d="M40 45 L45 50 L60 35" stroke="currentColor" stroke-width="3" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-2">Bimbingan Mualaf</h4>
+                            <p class="text-sm text-gray-600">Pembinaan dan bimbingan untuk saudara mualaf</p>
+                        </div>
+                    </div>
+
+                    <!-- Konsultasi -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="h-40 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 100 100">
+                                <circle cx="35" cy="35" r="10"/>
+                                <circle cx="65" cy="35" r="10"/>
+                                <path d="M20 55 Q20 45 30 45 L40 45 Q50 45 50 55 L50 70 L20 70 Z"/>
+                                <path d="M50 55 Q50 45 60 45 L70 45 Q80 45 80 55 L80 70 L50 70 Z"/>
+                                <ellipse cx="50" cy="75" rx="15" ry="5"/>
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-2">Konsultasi</h4>
+                            <p class="text-sm text-gray-600">Konsultasi keagamaan dan keluarga sakinah</p>
+                        </div>
+                    </div>
+
+                    <!-- Administrasi -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="h-40 bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 100 100">
+                                <rect x="25" y="20" width="50" height="60" rx="4"/>
+                                <rect x="30" y="30" width="40" height="3"/>
+                                <rect x="30" y="40" width="35" height="3"/>
+                                <rect x="30" y="50" width="30" height="3"/>
+                                <rect x="30" y="60" width="25" height="3"/>
+                                <circle cx="65" cy="65" r="8"/>
+                                <path d="M60 65 L63 68 L70 61" stroke="white" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-2">Administrasi</h4>
+                            <p class="text-sm text-gray-600">Pelayanan surat-menyurat dan dokumen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jam Pelayanan -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-2xl">🕐</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Jam Pelayanan</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-700">Senin - Kamis</span>
+                            <span class="text-green-600 font-semibold">08:00 - 15:30</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-700">Jumat</span>
+                            <span class="text-green-600 font-semibold">08:00 - 11:30</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-700">Sabtu - Minggu</span>
+                            <span class="text-red-500 font-semibold">Tutup</span>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                            <p class="text-sm text-yellow-800">
+                                <span class="font-semibold">📢 Catatan:</span> 
+                                Pelayanan akad nikah dapat dilakukan di luar jam kerja dengan perjanjian sebelumnya.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-2xl">📋</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Prosedur Pelayanan</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</div>
+                            <p class="text-gray-700">Datang ke KUA dengan membawa persyaratan lengkap</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</div>
+                            <p class="text-gray-700">Mengisi formulir dan verifikasi dokumen</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</div>
+                            <p class="text-gray-700">Mengikuti bimbingan pranikah (jika diperlukan)</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">4</div>
+                            <p class="text-gray-700">Pelaksanaan akad nikah dan pencatatan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tanggapan Pengguna -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Tanggapan Masyarakat</h3>
+                    <p class="text-gray-600">Testimoni dari masyarakat yang telah menggunakan layanan KUA kami</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Testimoni 1 -->
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                JW
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="font-semibold text-gray-900">John Wamafma</h4>
+                                <p class="text-sm text-gray-600">Mualaf</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 text-sm italic">
+                            "Pelayanan yang sangat baik dan ramah. Ustadz pembimbing sangat sabar dalam memberikan bimbingan. Terima kasih KUA Jayapura Utara."
+                        </p>
+                    </div>
+
+                    <!-- Testimoni 2 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                MR
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="font-semibold text-gray-900">Muhammad Rizki</h4>
+                                <p class="text-sm text-gray-600">Pengantin</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 text-sm italic">
+                            "Proses nikah berjalan lancar dan tertib. Petugas sangat profesional dan membantu. Sistem digital ini juga memudahkan untuk cek jadwal."
+                        </p>
+                    </div>
+
+                    <!-- Testimoni 3 -->
+                    <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                SK
+                            </div>
+                            <div class="ml-3">
+                                <h4 class="font-semibold text-gray-900">Siti Khadijah</h4>
+                                <p class="text-sm text-gray-600">Warga</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="text-gray-700 text-sm italic">
+                            "Konsultasi keluarga sakinah sangat bermanfaat. Pelayanan cepat dan tidak berbelit-belit. Semoga terus ditingkatkan."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Form Tanggapan -->
+                <div class="mt-8 border-t pt-8">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Berikan Tanggapan Anda</h4>
+                    <form id="feedbackForm" class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="feedbackName" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                                <input type="text" id="feedbackName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label for="feedbackRole" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <select id="feedbackRole" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                    <option value="">Pilih Status</option>
+                                    <option value="Mualaf">Mualaf</option>
+                                    <option value="Pengantin">Pengantin</option>
+                                    <option value="Warga">Warga</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="feedbackRating" class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                            <div class="flex space-x-2">
+                                <button type="button" class="rating-btn text-2xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="1">⭐</button>
+                                <button type="button" class="rating-btn text-2xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="2">⭐</button>
+                                <button type="button" class="rating-btn text-2xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="3">⭐</button>
+                                <button type="button" class="rating-btn text-2xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="4">⭐</button>
+                                <button type="button" class="rating-btn text-2xl text-gray-300 hover:text-yellow-400 transition-colors" data-rating="5">⭐</button>
+                            </div>
+                            <input type="hidden" id="selectedRating" required>
+                        </div>
+                        <div>
+                            <label for="feedbackMessage" class="block text-sm font-medium text-gray-700 mb-1">Tanggapan</label>
+                            <textarea id="feedbackMessage" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Bagikan pengalaman Anda menggunakan layanan KUA..." required></textarea>
+                        </div>
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
+                            Kirim Tanggapan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mualaf Section -->
+        <section id="mualaf" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Data Mualaf</h2>
+                    <div class="flex space-x-4">
+                        <input type="text" id="searchMualaf" placeholder="Cari nama mualaf..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full table-auto">
+                        <thead class="bg-green-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Mualaf</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Ikrar</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ustadz Pembimbing</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asal Daerah</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mualafTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section id="requirements" class="section-content hidden">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Persyaratan Mualaf -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-2xl">🤲</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Persyaratan Mualaf</h3>
+                    </div>
+                    <ul class="space-y-2 mb-6 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Fotokopi KTP yang masih berlaku
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Fotokopi Kartu Keluarga
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Pas foto 3x4 sebanyak 2 lembar
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Surat keterangan dari RT/RW
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Menghadiri bimbingan mualaf
+                        </li>
+                    </ul>
+                    <button onclick="downloadPDF('mualaf')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                        <span class="mr-2">📥</span>
+                        Download PDF Persyaratan Mualaf
+                    </button>
+                </div>
+
+                <!-- Persyaratan Nikah -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-2xl">💒</span>
+                        </div>
+                        <h3 class="text-xl font-semibold">Persyaratan Nikah</h3>
+                    </div>
+                    <ul class="space-y-2 mb-6 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Surat pengantar dari RT/RW
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Fotokopi KTP calon suami & istri
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Fotokopi Kartu Keluarga
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Akta kelahiran
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Surat keterangan belum menikah
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✓</span>
+                            Pas foto 2x3 dan 3x4
+                        </li>
+                    </ul>
+                    <button onclick="downloadPDF('nikah')" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                        <span class="mr-2">📥</span>
+                        Download PDF Persyaratan Nikah
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Jadwal Pernikahan</h2>
+                    <div class="flex space-x-4">
+                        <input type="month" id="filterMonth" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div class="grid gap-4" id="scheduleContainer">
+                    <!-- Schedule cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section-content hidden">
+            <div class="space-y-8">
+                <!-- Header Profil -->
+                <div class="bg-gradient-to-r from-green-600 to-emerald-700 rounded-xl text-white p-8 text-center">
+                    <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-12 h-12 text-white" viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="20" r="8" />
+                            <path d="M50 28 L42 35 L42 45 L58 45 L58 35 Z" />
+                            <rect x="35" y="45" width="30" height="25" />
+                            <path d="M30 70 L70 70 L65 80 L35 80 Z" />
+                            <rect x="47" y="50" width="6" height="15" />
+                            <circle cx="40" cy="57" r="2" />
+                            <circle cx="60" cy="57" r="2" />
+                            <path d="M50 15 L50 5 M45 17 L40 12 M55 17 L60 12" stroke="currentColor" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Profil KUA Jayapura Utara</h2>
+                    <p class="text-green-100">Melayani Masyarakat Papua dengan Dedikasi dan Profesionalisme</p>
+                </div>
+
+                <!-- Timeline Sejarah -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Sejarah Kementerian Agama</h3>
+                    
+                    <div class="relative">
+                        <!-- Timeline Line -->
+                        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-green-200"></div>
+                        
+                        <!-- Timeline Items -->
+                        <div class="space-y-8">
+                            <!-- 1946 -->
+                            <div class="relative flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow"></div>
+                                <div class="ml-16">
+                                    <div class="bg-green-50 rounded-lg p-6">
+                                        <div class="flex items-center mb-2">
+                                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1946</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Pembentukan Kementerian Agama</h4>
+                                        <p class="text-gray-700">Kementerian Agama Republik Indonesia dibentuk pada tanggal 3 Januari 1946 berdasarkan Peraturan Pemerintah No. 2 Tahun 1946. Kementerian ini didirikan untuk mengurus urusan keagamaan di Indonesia yang baru merdeka.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 1950 -->
+                            <div class="relative flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow"></div>
+                                <div class="ml-16">
+                                    <div class="bg-blue-50 rounded-lg p-6">
+                                        <div class="flex items-center mb-2">
+                                            <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1950</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Pembentukan KUA</h4>
+                                        <p class="text-gray-700">Kantor Urusan Agama (KUA) dibentuk sebagai unit pelaksana teknis di tingkat kecamatan untuk menangani urusan pernikahan, perceraian, rujuk, dan administrasi keagamaan lainnya bagi umat Islam.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 1975 -->
+                            <div class="relative flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow"></div>
+                                <div class="ml-16">
+                                    <div class="bg-purple-50 rounded-lg p-6">
+                                        <div class="flex items-center mb-2">
+                                            <span class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1975</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-2">UU Perkawinan No. 1 Tahun 1974</h4>
+                                        <p class="text-gray-700">Undang-Undang Perkawinan disahkan yang memperkuat peran KUA dalam pencatatan pernikahan. KUA menjadi satu-satunya lembaga yang berwenang mencatat pernikahan umat Islam di Indonesia.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2000s -->
+                            <div class="relative flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow"></div>
+                                <div class="ml-16">
+                                    <div class="bg-orange-50 rounded-lg p-6">
+                                        <div class="flex items-center mb-2">
+                                            <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-semibold">2000an</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Era Reformasi dan Modernisasi</h4>
+                                        <p class="text-gray-700">KUA mulai mengalami modernisasi dengan penerapan sistem informasi dan digitalisasi layanan. Pelayanan menjadi lebih transparan dan efisien dengan dukungan teknologi.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2020s -->
+                            <div class="relative flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-600 rounded-full border-4 border-white shadow"></div>
+                                <div class="ml-16">
+                                    <div class="bg-emerald-50 rounded-lg p-6">
+                                        <div class="flex items-center mb-2">
+                                            <span class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">2020an</span>
+                                        </div>
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Transformasi Digital</h4>
+                                        <p class="text-gray-700">KUA mengalami transformasi digital penuh dengan sistem online, aplikasi mobile, dan pelayanan berbasis web. Masyarakat dapat mengakses informasi dan layanan KUA secara digital seperti sistem ini.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visi Misi -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-2xl">🎯</span>
+                            </div>
+                            <h3 class="text-xl font-semibold">Visi KUA</h3>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            "Terwujudnya masyarakat Indonesia yang taat beragama, rukun, cerdas, mandiri, dan sejahtera lahir batin dalam rangka mewujudkan masyarakat madani."
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-2xl">🚀</span>
+                            </div>
+                            <h3 class="text-xl font-semibold">Misi KUA</h3>
+                        </div>
+                        <ul class="text-gray-700 space-y-2">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">•</span>
+                                Memberikan pelayanan prima dalam bidang keagamaan
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">•</span>
+                                Mencatat dan mengawasi pernikahan umat Islam
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">•</span>
+                                Membina dan membimbing mualaf
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">•</span>
+                                Meningkatkan kualitas keluarga sakinah
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tugas dan Fungsi KUA -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Tugas dan Fungsi KUA</h3>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">💒</div>
+                            <h4 class="font-semibold mb-2">Pencatatan Nikah</h4>
+                            <p class="text-sm text-gray-600">Mencatat pernikahan, perceraian, dan rujuk umat Islam</p>
+                        </div>
+                        
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">🤲</div>
+                            <h4 class="font-semibold mb-2">Pembinaan Mualaf</h4>
+                            <p class="text-sm text-gray-600">Membimbing dan membina saudara mualaf</p>
+                        </div>
+                        
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">👨‍👩‍👧‍👦</div>
+                            <h4 class="font-semibold mb-2">Keluarga Sakinah</h4>
+                            <p class="text-sm text-gray-600">Pembinaan keluarga sakinah, mawaddah, warahmah</p>
+                        </div>
+                        
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">📚</div>
+                            <h4 class="font-semibold mb-2">Penyuluhan</h4>
+                            <p class="text-sm text-gray-600">Penyuluhan agama dan bimbingan masyarakat</p>
+                        </div>
+                        
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">📋</div>
+                            <h4 class="font-semibold mb-2">Administrasi</h4>
+                            <p class="text-sm text-gray-600">Pelayanan administrasi keagamaan</p>
+                        </div>
+                        
+                        <div class="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="text-4xl mb-3">🤝</div>
+                            <h4 class="font-semibold mb-2">Kemitraan</h4>
+                            <p class="text-sm text-gray-600">Kerjasama dengan lembaga terkait</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold mb-6 text-center">Admin Login</h3>
+            <form id="adminLoginForm">
+                <div class="mb-4">
+                    <label for="adminUsername" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="adminUsername" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                </div>
+                <div class="mb-6">
+                    <label for="adminPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="adminPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="button" id="cancelLogin" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-lg transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+        <div class="bg-green-600 text-white p-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold">Panel Admin KUA</h2>
+                <button id="logoutBtn" class="bg-green-700 hover:bg-green-800 px-4 py-2 rounded-lg transition-colors">
+                    Logout
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Manage Mualaf -->
+                <div class="bg-white border rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Kelola Data Mualaf</h3>
+                        <button onclick="clearAllMualaf()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            Hapus Semua Data
+                        </button>
+                    </div>
+                    <form id="mualafForm" class="space-y-4">
+                        <div>
+                            <label for="mualafName" class="block text-sm font-medium text-gray-700 mb-1">Nama Mualaf</label>
+                            <input type="text" id="mualafName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="mualafDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Ikrar</label>
+                            <input type="date" id="mualafDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="mualafUstadz" class="block text-sm font-medium text-gray-700 mb-1">Ustadz Pembimbing</label>
+                            <input type="text" id="mualafUstadz" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="mualafRegion" class="block text-sm font-medium text-gray-700 mb-1">Asal Daerah</label>
+                            <input type="text" id="mualafRegion" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
+                            Tambah Data Mualaf
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Manage Schedule -->
+                <div class="bg-white border rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Kelola Jadwal Nikah</h3>
+                        <button onclick="clearAllSchedule()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            Hapus Semua Jadwal
+                        </button>
+                    </div>
+                    <form id="scheduleForm" class="space-y-4">
+                        <div>
+                            <label for="groomName" class="block text-sm font-medium text-gray-700 mb-1">Nama Calon Suami</label>
+                            <input type="text" id="groomName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="brideName" class="block text-sm font-medium text-gray-700 mb-1">Nama Calon Istri</label>
+                            <input type="text" id="brideName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="weddingDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Nikah</label>
+                            <input type="date" id="weddingDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="weddingTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu</label>
+                            <input type="time" id="weddingTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label for="weddingLocation" class="block text-sm font-medium text-gray-700 mb-1">Lokasi</label>
+                            <input type="text" id="weddingLocation" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
+                            Tambah Jadwal Nikah
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage - Kosong untuk memulai fresh
+        let mualafData = [];
+        let scheduleData = [];
+
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const section = btn.dataset.section;
+                showSection(section);
+                
+                // Update active nav
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('border-green-200', 'text-green-200');
+                });
+                btn.classList.add('border-green-200', 'text-green-200');
+            });
+        });
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionName).classList.remove('hidden');
+            document.getElementById(sectionName).classList.add('fade-in');
+            
+            if (sectionName === 'mualaf') {
+                renderMualafTable();
+            } else if (sectionName === 'schedule') {
+                renderSchedule();
+            }
+        }
+
+        // Mualaf Table with Delete functionality
+        function renderMualafTable(searchTerm = '') {
+            const tbody = document.getElementById('mualafTableBody');
+            const filteredData = mualafData.filter(item => 
+                item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.ustadz.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.region.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                            <div class="text-4xl mb-2">📋</div>
+                            <p>Belum ada data mualaf. Silakan tambah data melalui panel admin.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filteredData.map((item, index) => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${index + 1}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${formatDate(item.date)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.ustadz}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.region}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <button onclick="deleteMualaf(${item.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition-colors">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete Individual Mualaf
+        function deleteMualaf(id) {
+            const item = mualafData.find(m => m.id === id);
+            if (item) {
+                const confirmDelete = document.createElement('div');
+                confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                confirmDelete.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                        <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h3>
+                        <p class="text-gray-600 mb-6">Yakin ingin menghapus data mualaf "${item.name}"?</p>
+                        <div class="flex space-x-4">
+                            <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                                Batal
+                            </button>
+                            <button onclick="confirmDeleteMualaf(${id}); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(confirmDelete);
+            }
+        }
+
+        function confirmDeleteMualaf(id) {
+            mualafData = mualafData.filter(item => item.id !== id);
+            renderMualafTable();
+            showNotification('Data mualaf berhasil dihapus!');
+        }
+
+        // Clear All Mualaf Data
+        function clearAllMualaf() {
+            if (mualafData.length === 0) {
+                showNotification('Tidak ada data untuk dihapus!', 'error');
+                return;
+            }
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDelete.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus Semua</h3>
+                    <p class="text-gray-600 mb-6">Yakin ingin menghapus SEMUA data mualaf (${mualafData.length} data)?</p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmClearAllMualaf(); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+        }
+
+        function confirmClearAllMualaf() {
+            mualafData = [];
+            renderMualafTable();
+            showNotification('Semua data mualaf berhasil dihapus!');
+        }
+
+        // Schedule Rendering with Delete functionality
+        function renderSchedule(filterMonth = '') {
+            const container = document.getElementById('scheduleContainer');
+            let filteredData = scheduleData;
+            
+            if (filterMonth) {
+                filteredData = scheduleData.filter(item => 
+                    item.date.startsWith(filterMonth)
+                );
+            }
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">📅</div>
+                        <h3 class="text-xl font-semibold mb-2">Belum Ada Jadwal</h3>
+                        <p>Belum ada jadwal pernikahan. Silakan tambah jadwal melalui panel admin.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filteredData.map(item => `
+                <div class="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
+                                <span class="text-2xl">💒</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">${item.groom} & ${item.bride}</h3>
+                                <p class="text-sm text-gray-600">Akad Nikah</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-pink-600">${formatDate(item.date)}</p>
+                            <p class="text-sm text-gray-600">${item.time}</p>
+                            <button onclick="deleteSchedule(${item.id})" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition-colors">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <span class="mr-2">📍</span>
+                        ${item.location}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete Individual Schedule
+        function deleteSchedule(id) {
+            const item = scheduleData.find(s => s.id === id);
+            if (item) {
+                const confirmDelete = document.createElement('div');
+                confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                confirmDelete.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                        <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h3>
+                        <p class="text-gray-600 mb-6">Yakin ingin menghapus jadwal nikah "${item.groom} & ${item.bride}"?</p>
+                        <div class="flex space-x-4">
+                            <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                                Batal
+                            </button>
+                            <button onclick="confirmDeleteSchedule(${id}); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(confirmDelete);
+            }
+        }
+
+        function confirmDeleteSchedule(id) {
+            scheduleData = scheduleData.filter(item => item.id !== id);
+            renderSchedule();
+            showNotification('Jadwal nikah berhasil dihapus!');
+        }
+
+        // Clear All Schedule Data
+        function clearAllSchedule() {
+            if (scheduleData.length === 0) {
+                showNotification('Tidak ada jadwal untuk dihapus!', 'error');
+                return;
+            }
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDelete.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus Semua</h3>
+                    <p class="text-gray-600 mb-6">Yakin ingin menghapus SEMUA jadwal nikah (${scheduleData.length} jadwal)?</p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmClearAllSchedule(); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+        }
+
+        function confirmClearAllSchedule() {
+            scheduleData = [];
+            renderSchedule();
+            showNotification('Semua jadwal nikah berhasil dihapus!');
+        }
+
+        // Search functionality
+        document.getElementById('searchMualaf').addEventListener('input', (e) => {
+            renderMualafTable(e.target.value);
+        });
+
+        document.getElementById('filterMonth').addEventListener('change', (e) => {
+            renderSchedule(e.target.value);
+        });
+
+        // PDF Download
+        function downloadPDF(type) {
+            const content = type === 'mualaf' ? 
+                'Persyaratan Mualaf:\n\n1. Fotokopi KTP yang masih berlaku\n2. Fotokopi Kartu Keluarga\n3. Pas foto 3x4 sebanyak 2 lembar\n4. Surat keterangan dari RT/RW\n5. Menghadiri bimbingan mualaf' :
+                'Persyaratan Nikah:\n\n1. Surat pengantar dari RT/RW\n2. Fotokopi KTP calon suami & istri\n3. Fotokopi Kartu Keluarga\n4. Akta kelahiran\n5. Surat keterangan belum menikah\n6. Pas foto 2x3 dan 3x4';
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `persyaratan-${type}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification(`File persyaratan ${type} berhasil didownload!`);
+        }
+
+        // Admin functionality
+        document.getElementById('adminBtn').addEventListener('click', () => {
+            document.getElementById('adminModal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelLogin').addEventListener('click', () => {
+            document.getElementById('adminModal').classList.add('hidden');
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === 'admin' && password === 'admin123') {
+                document.getElementById('adminModal').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                showNotification('Login berhasil! Selamat datang Admin.');
+            } else {
+                showNotification('Username atau password salah!', 'error');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('adminLoginForm').reset();
+            showNotification('Logout berhasil!');
+        });
+
+        // Admin Forms
+        document.getElementById('mualafForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newMualaf = {
+                id: Date.now(), // Use timestamp as unique ID
+                name: document.getElementById('mualafName').value,
+                date: document.getElementById('mualafDate').value,
+                ustadz: document.getElementById('mualafUstadz').value,
+                region: document.getElementById('mualafRegion').value
+            };
+            
+            mualafData.push(newMualaf);
+            document.getElementById('mualafForm').reset();
+            showNotification('Data mualaf berhasil ditambahkan!');
+        });
+
+        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newSchedule = {
+                id: Date.now(), // Use timestamp as unique ID
+                groom: document.getElementById('groomName').value,
+                bride: document.getElementById('brideName').value,
+                date: document.getElementById('weddingDate').value,
+                time: document.getElementById('weddingTime').value,
+                location: document.getElementById('weddingLocation').value
+            };
+            
+            scheduleData.push(newSchedule);
+            document.getElementById('scheduleForm').reset();
+            showNotification('Jadwal nikah berhasil ditambahkan!');
+        });
+
+        // Utility functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            } shadow-lg transform transition-all duration-300`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Rating functionality
+        let selectedRating = 0;
+        document.querySelectorAll('.rating-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                selectedRating = parseInt(btn.dataset.rating);
+                document.getElementById('selectedRating').value = selectedRating;
+                
+                // Update visual rating
+                document.querySelectorAll('.rating-btn').forEach((ratingBtn, index) => {
+                    if (index < selectedRating) {
+                        ratingBtn.classList.remove('text-gray-300');
+                        ratingBtn.classList.add('text-yellow-400');
+                    } else {
+                        ratingBtn.classList.remove('text-yellow-400');
+                        ratingBtn.classList.add('text-gray-300');
+                    }
+                });
+            });
+        });
+
+        // Feedback form
+        document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (selectedRating === 0) {
+                showNotification('Silakan pilih rating terlebih dahulu!', 'error');
+                return;
+            }
+            
+            const name = document.getElementById('feedbackName').value;
+            const role = document.getElementById('feedbackRole').value;
+            const message = document.getElementById('feedbackMessage').value;
+            
+            // Reset form
+            document.getElementById('feedbackForm').reset();
+            selectedRating = 0;
+            document.getElementById('selectedRating').value = '';
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('text-yellow-400');
+                btn.classList.add('text-gray-300');
+            });
+            
+            showNotification(`Terima kasih ${name}! Tanggapan Anda telah dikirim dan akan membantu kami meningkatkan pelayanan.`);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+            document.querySelector('[data-section="home"]').classList.add('border-green-200', 'text-green-200');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993deaca311297a7',t:'MTc2MTM1NTQ5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
