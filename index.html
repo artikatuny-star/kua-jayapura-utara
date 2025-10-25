@@ -103,14 +103,14 @@
                         </svg>
                         <div class="text-center z-10">
                             <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
-                            <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                            <p class="text-green-100">WELCOME</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📍 Alamat</h4>
-                                <p class="text-gray-600">Jl. Raya Sentani No. 45, Jayapura Utara, Kota Jayapura, Papua 99351</p>
+                                <p class="text-gray-600">Jalan Pasifik Indah III No. 51, Pasir II, Jayapura Utara, Kota Jayapura. </p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📞 Kontak</h4>
@@ -447,10 +447,12 @@
                             Menghadiri bimbingan mualaf
                         </li>
                     </ul>
-                    <button onclick="downloadPDF('mualaf')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
-                        <span class="mr-2">📥</span>
-                        Download PDF Persyaratan Mualaf
-                    </button>
+                    <div id="mualafPdfSection">
+                        <div class="text-center py-4 text-gray-500">
+                            <div class="text-3xl mb-2">📄</div>
+                            <p class="text-sm">PDF belum tersedia. Admin belum mengupload file.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Persyaratan Nikah -->
@@ -487,10 +489,12 @@
                             Pas foto 2x3 dan 3x4
                         </li>
                     </ul>
-                    <button onclick="downloadPDF('nikah')" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
-                        <span class="mr-2">📥</span>
-                        Download PDF Persyaratan Nikah
-                    </button>
+                    <div id="nikahPdfSection">
+                        <div class="text-center py-4 text-gray-500">
+                            <div class="text-3xl mb-2">📄</div>
+                            <p class="text-sm">PDF belum tersedia. Admin belum mengupload file.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -740,6 +744,49 @@
         </div>
         
         <div class="p-6">
+            <!-- Upload PDF Section -->
+            <div class="bg-white border rounded-xl p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-6">📄 Kelola File PDF Persyaratan</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Upload PDF Mualaf -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3">PDF Persyaratan Mualaf</h4>
+                        <div class="space-y-3">
+                            <input type="file" id="mualafPdfFile" accept=".pdf" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <button onclick="uploadPDF('mualaf')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                                Upload PDF Mualaf
+                            </button>
+                            <div id="mualafPdfStatus" class="text-sm"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload PDF Nikah -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3">PDF Persyaratan Nikah</h4>
+                        <div class="space-y-3">
+                            <input type="file" id="nikahPdfFile" accept=".pdf" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+                            <button onclick="uploadPDF('nikah')" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                                Upload PDF Nikah
+                            </button>
+                            <div id="nikahPdfStatus" class="text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hapus PDF -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h4 class="font-medium mb-3">Hapus File PDF</h4>
+                    <div class="flex space-x-4">
+                        <button onclick="deletePDF('mualaf')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            Hapus PDF Mualaf
+                        </button>
+                        <button onclick="deletePDF('nikah')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            Hapus PDF Nikah
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Manage Mualaf -->
                 <div class="bg-white border rounded-xl p-6">
@@ -811,9 +858,17 @@
     </div>
 
     <script>
-        // Data Storage - Kosong untuk memulai fresh
-        let mualafData = [];
-        let scheduleData = [];
+        // Data Storage dengan LocalStorage untuk data permanen
+        let mualafData = JSON.parse(localStorage.getItem('mualafData')) || [];
+        let scheduleData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+        let pdfFiles = JSON.parse(localStorage.getItem('pdfFiles')) || {};
+
+        // Fungsi simpan data ke localStorage
+        function saveData() {
+            localStorage.setItem('mualafData', JSON.stringify(mualafData));
+            localStorage.setItem('scheduleData', JSON.stringify(scheduleData));
+            localStorage.setItem('pdfFiles', JSON.stringify(pdfFiles));
+        }
 
         // Navigation
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -906,6 +961,7 @@
 
         function confirmDeleteMualaf(id) {
             mualafData = mualafData.filter(item => item.id !== id);
+            saveData();
             renderMualafTable();
             showNotification('Data mualaf berhasil dihapus!');
         }
@@ -938,6 +994,7 @@
 
         function confirmClearAllMualaf() {
             mualafData = [];
+            saveData();
             renderMualafTable();
             showNotification('Semua data mualaf berhasil dihapus!');
         }
@@ -1018,6 +1075,7 @@
 
         function confirmDeleteSchedule(id) {
             scheduleData = scheduleData.filter(item => item.id !== id);
+            saveData();
             renderSchedule();
             showNotification('Jadwal nikah berhasil dihapus!');
         }
@@ -1050,6 +1108,7 @@
 
         function confirmClearAllSchedule() {
             scheduleData = [];
+            saveData();
             renderSchedule();
             showNotification('Semua jadwal nikah berhasil dihapus!');
         }
@@ -1063,23 +1122,170 @@
             renderSchedule(e.target.value);
         });
 
-        // PDF Download
+        // PDF Management Functions
+        function uploadPDF(type) {
+            const fileInput = document.getElementById(`${type}PdfFile`);
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Silakan pilih file PDF terlebih dahulu!', 'error');
+                return;
+            }
+            
+            if (file.type !== 'application/pdf') {
+                showNotification('File harus berformat PDF!', 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('Ukuran file maksimal 5MB!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                pdfFiles[type] = {
+                    name: file.name,
+                    data: e.target.result,
+                    uploadDate: new Date().toISOString(),
+                    size: file.size
+                };
+                saveData();
+                updatePdfStatus(type);
+                renderPdfSections();
+                showNotification(`PDF ${type} berhasil diupload!`);
+                fileInput.value = ''; // Clear input
+            };
+            reader.readAsDataURL(file);
+        }
+        
         function downloadPDF(type) {
-            const content = type === 'mualaf' ? 
-                'Persyaratan Mualaf:\n\n1. Fotokopi KTP yang masih berlaku\n2. Fotokopi Kartu Keluarga\n3. Pas foto 3x4 sebanyak 2 lembar\n4. Surat keterangan dari RT/RW\n5. Menghadiri bimbingan mualaf' :
-                'Persyaratan Nikah:\n\n1. Surat pengantar dari RT/RW\n2. Fotokopi KTP calon suami & istri\n3. Fotokopi Kartu Keluarga\n4. Akta kelahiran\n5. Surat keterangan belum menikah\n6. Pas foto 2x3 dan 3x4';
+            if (!pdfFiles[type]) {
+                showNotification('PDF tidak tersedia!', 'error');
+                return;
+            }
             
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `persyaratan-${type}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            const link = document.createElement('a');
+            link.href = pdfFiles[type].data;
+            link.download = pdfFiles[type].name;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            showNotification(`File persyaratan ${type} berhasil didownload!`);
+            showNotification(`PDF ${type} berhasil didownload!`);
+        }
+        
+        function deletePDF(type) {
+            if (!pdfFiles[type]) {
+                showNotification('Tidak ada PDF untuk dihapus!', 'error');
+                return;
+            }
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDelete.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus PDF</h3>
+                    <p class="text-gray-600 mb-6">Yakin ingin menghapus PDF "${pdfFiles[type].name}"?</p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmDeletePDF('${type}'); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+        }
+        
+        function confirmDeletePDF(type) {
+            delete pdfFiles[type];
+            saveData();
+            updatePdfStatus(type);
+            renderPdfSections();
+            showNotification(`PDF ${type} berhasil dihapus!`);
+        }
+        
+        function updatePdfStatus(type) {
+            const statusDiv = document.getElementById(`${type}PdfStatus`);
+            if (pdfFiles[type]) {
+                const uploadDate = new Date(pdfFiles[type].uploadDate).toLocaleDateString('id-ID');
+                const fileSize = (pdfFiles[type].size / 1024).toFixed(1);
+                statusDiv.innerHTML = `
+                    <div class="text-green-600">
+                        ✅ <strong>${pdfFiles[type].name}</strong><br>
+                        <span class="text-xs">Upload: ${uploadDate} | ${fileSize} KB</span>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = `<div class="text-gray-500">📄 Belum ada file PDF</div>`;
+            }
+        }
+        
+        function renderPdfSections() {
+            // Update Mualaf PDF Section
+            const mualafSection = document.getElementById('mualafPdfSection');
+            if (pdfFiles.mualaf) {
+                const uploadDate = new Date(pdfFiles.mualaf.uploadDate).toLocaleDateString('id-ID');
+                mualafSection.innerHTML = `
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">📄</span>
+                                <div>
+                                    <h4 class="font-medium text-blue-900">${pdfFiles.mualaf.name}</h4>
+                                    <p class="text-xs text-blue-600">Diupload: ${uploadDate}</p>
+                                </div>
+                            </div>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">PDF</span>
+                        </div>
+                        <button onclick="downloadPDF('mualaf')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                            <span class="mr-2">📥</span>
+                            Download PDF Persyaratan Mualaf
+                        </button>
+                    </div>
+                `;
+            } else {
+                mualafSection.innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <div class="text-3xl mb-2">📄</div>
+                        <p class="text-sm">PDF belum tersedia. Admin belum mengupload file.</p>
+                    </div>
+                `;
+            }
+            
+            // Update Nikah PDF Section
+            const nikahSection = document.getElementById('nikahPdfSection');
+            if (pdfFiles.nikah) {
+                const uploadDate = new Date(pdfFiles.nikah.uploadDate).toLocaleDateString('id-ID');
+                nikahSection.innerHTML = `
+                    <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">📄</span>
+                                <div>
+                                    <h4 class="font-medium text-pink-900">${pdfFiles.nikah.name}</h4>
+                                    <p class="text-xs text-pink-600">Diupload: ${uploadDate}</p>
+                                </div>
+                            </div>
+                            <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded text-xs font-medium">PDF</span>
+                        </div>
+                        <button onclick="downloadPDF('nikah')" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                            <span class="mr-2">📥</span>
+                            Download PDF Persyaratan Nikah
+                        </button>
+                    </div>
+                `;
+            } else {
+                nikahSection.innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <div class="text-3xl mb-2">📄</div>
+                        <p class="text-sm">PDF belum tersedia. Admin belum mengupload file.</p>
+                    </div>
+                `;
+            }
         }
 
         // Admin functionality
@@ -1123,6 +1329,7 @@
             };
             
             mualafData.push(newMualaf);
+            saveData();
             document.getElementById('mualafForm').reset();
             showNotification('Data mualaf berhasil ditambahkan!');
         });
@@ -1139,6 +1346,7 @@
             };
             
             scheduleData.push(newSchedule);
+            saveData();
             document.getElementById('scheduleForm').reset();
             showNotification('Jadwal nikah berhasil ditambahkan!');
         });
@@ -1216,7 +1424,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             showSection('home');
             document.querySelector('[data-section="home"]').classList.add('border-green-200', 'text-green-200');
+            
+            // Initialize PDF sections
+            renderPdfSections();
+            updatePdfStatus('mualaf');
+            updatePdfStatus('nikah');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993deaca311297a7',t:'MTc2MTM1NTQ5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993e20dbd5e59fbc',t:'MTc2MTM1NzcxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
