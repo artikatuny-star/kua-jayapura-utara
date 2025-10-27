@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem KUA Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <style>
         body {
             box-sizing: border-box;
@@ -79,7 +83,7 @@
         <!-- Home Section -->
         <section id="home" class="section-content fade-in">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Selamat Datang di KUA Jayapura Utara</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">SELAMAT DATANG DI KUA JAYAPURA UTARA</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Sistem informasi terintegrasi untuk layanan KUA Kecamatan Jayapura Utara. 
                     Melayani masyarakat Papua dengan sepenuh hati dalam urusan keagamaan, pernikahan, dan pembinaan mualaf.
@@ -89,28 +93,38 @@
             <!-- Foto Gedung KUA -->
             <div class="mb-12">
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="h-64 bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center relative">
-                        <svg class="w-32 h-32 text-white opacity-20 absolute" viewBox="0 0 200 200" fill="currentColor">
-                            <rect x="20" y="80" width="160" height="100" rx="8"/>
-                            <rect x="40" y="60" width="120" height="40" rx="4"/>
-                            <rect x="60" y="40" width="80" height="30" rx="4"/>
-                            <circle cx="100" cy="25" r="8"/>
-                            <rect x="90" y="100" width="20" height="40"/>
-                            <rect x="50" y="110" width="15" height="15"/>
-                            <rect x="135" y="110" width="15" height="15"/>
-                            <rect x="70" y="130" width="15" height="15"/>
-                            <rect x="115" y="130" width="15" height="15"/>
-                        </svg>
-                        <div class="text-center z-10">
+                    <div class="h-64 relative overflow-hidden">
+                        <img src="https://example.com/kua-jayapura-utara.jpg" 
+                             alt="Gedung KUA Jayapura Utara" 
+                             class="w-full h-full object-cover"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-full h-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center absolute top-0 left-0" style="display: none;">
+                            <svg class="w-32 h-32 text-white opacity-20 absolute" viewBox="0 0 200 200" fill="currentColor">
+                                <rect x="20" y="80" width="160" height="100" rx="8"/>
+                                <rect x="40" y="60" width="120" height="40" rx="4"/>
+                                <rect x="60" y="40" width="80" height="30" rx="4"/>
+                                <circle cx="100" cy="25" r="8"/>
+                                <rect x="90" y="100" width="20" height="40"/>
+                                <rect x="50" y="110" width="15" height="15"/>
+                                <rect x="135" y="110" width="15" height="15"/>
+                                <rect x="70" y="130" width="15" height="15"/>
+                                <rect x="115" y="130" width="15" height="15"/>
+                            </svg>
+                            <div class="text-center z-10">
+                                <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
+                                <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
                             <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
-                            <p class="text-green-100">WELCOME</p>
+                            <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📍 Alamat</h4>
-                                <p class="text-gray-600">Jalan Pasifik Indah III No. 51, Pasir II, Jayapura Utara, Kota Jayapura. </p>
+                                <p class="text-gray-600">Jl. Raya Sentani No. 45, Jayapura Utara, Kota Jayapura, Papua 99351</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📞 Kontak</h4>
@@ -275,10 +289,10 @@
                 </div>
             </div>
 
-            <!-- Tanggapan Pengguna -->
+            <!-- Saran dan Masukan -->
             <div class="bg-white rounded-xl shadow-lg p-8">
                 <div class="text-center mb-8">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Tanggapan Masyarakat</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Saran dan Masukan</h3>
                     <p class="text-gray-600">Testimoni dari masyarakat yang telah menggunakan layanan KUA kami</p>
                 </div>
                 
@@ -341,9 +355,9 @@
                     </div>
                 </div>
 
-                <!-- Form Tanggapan -->
+                <!-- Form Saran dan Masukan -->
                 <div class="mt-8 border-t pt-8">
-                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Berikan Tanggapan Anda</h4>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Berikan Saran dan Masukan Anda</h4>
                     <form id="feedbackForm" class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
@@ -373,11 +387,11 @@
                             <input type="hidden" id="selectedRating" required>
                         </div>
                         <div>
-                            <label for="feedbackMessage" class="block text-sm font-medium text-gray-700 mb-1">Tanggapan</label>
-                            <textarea id="feedbackMessage" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Bagikan pengalaman Anda menggunakan layanan KUA..." required></textarea>
+                            <label for="feedbackMessage" class="block text-sm font-medium text-gray-700 mb-1">Saran dan Masukan</label>
+                            <textarea id="feedbackMessage" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Bagikan saran dan masukan Anda untuk layanan KUA..." required></textarea>
                         </div>
                         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
-                            Kirim Tanggapan
+                            Kirim Saran dan Masukan
                         </button>
                     </form>
                 </div>
@@ -787,6 +801,160 @@
                 </div>
             </div>
 
+            <!-- Firebase Configuration Section -->
+            <div class="bg-white border rounded-xl p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-6">🔥 Konfigurasi Firebase</h3>
+                
+                <!-- Firebase Status -->
+                <div class="mb-6 p-4 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-medium text-orange-900 mb-1">Status Firebase</h4>
+                            <p id="firebaseStatus" class="text-sm text-orange-700">Belum dikonfigurasi</p>
+                        </div>
+                        <div class="text-3xl">🔥</div>
+                    </div>
+                </div>
+
+                <!-- Firebase Config Form -->
+                <div class="grid md:grid-cols-1 gap-6 mb-6">
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 flex items-center">
+                            <span class="text-2xl mr-2">⚙️</span>
+                            Setup Firebase Config
+                        </h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label for="firebaseApiKey" class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+                                <input type="text" id="firebaseApiKey" placeholder="AIzaSyC..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm">
+                            </div>
+                            <div>
+                                <label for="firebaseProjectId" class="block text-sm font-medium text-gray-700 mb-1">Project ID</label>
+                                <input type="text" id="firebaseProjectId" placeholder="kua-jayapura-utara" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm">
+                            </div>
+                            <div>
+                                <label for="firebaseAppId" class="block text-sm font-medium text-gray-700 mb-1">App ID</label>
+                                <input type="text" id="firebaseAppId" placeholder="1:123456789:web:abc123" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm">
+                            </div>
+                            <button onclick="initializeFirebase()" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                                Inisialisasi Firebase
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Firebase Actions -->
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button onclick="syncToFirebase()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center">
+                        <span class="mr-2">☁️</span>
+                        Sync ke Firebase
+                    </button>
+                    <button onclick="loadFromFirebase()" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center">
+                        <span class="mr-2">📥</span>
+                        Load dari Firebase
+                    </button>
+                    <button onclick="clearFirebaseData()" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center">
+                        <span class="mr-2">🗑️</span>
+                        Clear Firebase
+                    </button>
+                </div>
+
+                <!-- Firebase Instructions -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h4 class="font-medium mb-3">📋 Cara Setup Firebase:</h4>
+                    <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700">
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li>Buka <a href="https://console.firebase.google.com" target="_blank" class="text-blue-600 hover:underline">Firebase Console</a></li>
+                            <li>Buat project baru atau pilih project yang ada</li>
+                            <li>Pilih "Web App" dan daftarkan aplikasi</li>
+                            <li>Copy API Key, Project ID, dan App ID ke form di atas</li>
+                            <li>Di Firebase Console, aktifkan Firestore Database</li>
+                            <li>Set rules Firestore ke mode test (allow read, write)</li>
+                            <li>Klik "Inisialisasi Firebase" untuk menghubungkan</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Management Section -->
+            <div class="bg-white border rounded-xl p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-6">🗄️ Kelola Database</h3>
+                
+                <!-- Database Status -->
+                <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-medium text-blue-900 mb-1">Status Database</h4>
+                            <p id="dbStatus" class="text-sm text-blue-700">Memuat status database...</p>
+                        </div>
+                        <div class="text-3xl">🗄️</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Export Database -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 flex items-center">
+                            <span class="text-2xl mr-2">📤</span>
+                            Export Database
+                        </h4>
+                        <p class="text-sm text-gray-600 mb-4">Download backup database dalam format JSON</p>
+                        <button onclick="exportDatabase()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                            Export Database
+                        </button>
+                    </div>
+                    
+                    <!-- Import Database -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 flex items-center">
+                            <span class="text-2xl mr-2">📥</span>
+                            Import Database
+                        </h4>
+                        <div class="space-y-3">
+                            <input type="file" id="importDbFile" accept=".json" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <button onclick="importDatabase()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                                Import Database
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Load Sample Data -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 flex items-center">
+                            <span class="text-2xl mr-2">📋</span>
+                            Data Contoh
+                        </h4>
+                        <p class="text-sm text-gray-600 mb-4">Muat data contoh untuk testing sistem</p>
+                        <button onclick="loadSampleData()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                            Muat Data Contoh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Database Statistics -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h4 class="font-medium mb-4">📊 Statistik Database</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="mualafCount">0</div>
+                            <div class="text-xs text-blue-700">Data Mualaf</div>
+                        </div>
+                        <div class="bg-pink-50 border border-pink-200 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-pink-600" id="scheduleCount">0</div>
+                            <div class="text-xs text-pink-700">Jadwal Nikah</div>
+                        </div>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-green-600" id="pdfCount">0</div>
+                            <div class="text-xs text-green-700">File PDF</div>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="totalSize">0 KB</div>
+                            <div class="text-xs text-purple-700">Total Ukuran</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Manage Mualaf -->
                 <div class="bg-white border rounded-xl p-6">
@@ -858,16 +1026,598 @@
     </div>
 
     <script>
-        // Data Storage dengan LocalStorage untuk data permanen
-        let mualafData = JSON.parse(localStorage.getItem('mualafData')) || [];
-        let scheduleData = JSON.parse(localStorage.getItem('scheduleData')) || [];
-        let pdfFiles = JSON.parse(localStorage.getItem('pdfFiles')) || {};
+        // Database Variables
+        let db = null;
+        let isWebSQLSupported = false;
+        let mualafData = [];
+        let scheduleData = [];
+        let pdfFiles = {};
+        
+        // Firebase Variables
+        let firebaseApp = null;
+        let firestore = null;
+        let storage = null;
+        let isFirebaseInitialized = false;
 
-        // Fungsi simpan data ke localStorage
-        function saveData() {
+        // Firebase Functions
+        function initializeFirebase() {
+            const apiKey = document.getElementById('firebaseApiKey').value.trim();
+            const projectId = document.getElementById('firebaseProjectId').value.trim();
+            const appId = document.getElementById('firebaseAppId').value.trim();
+            
+            if (!apiKey || !projectId || !appId) {
+                showNotification('Harap isi semua field Firebase config!', 'error');
+                return;
+            }
+            
+            try {
+                const firebaseConfig = {
+                    apiKey: apiKey,
+                    authDomain: `${projectId}.firebaseapp.com`,
+                    projectId: projectId,
+                    storageBucket: `${projectId}.appspot.com`,
+                    messagingSenderId: "123456789012",
+                    appId: appId
+                };
+                
+                // Initialize Firebase
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                firestore = firebase.firestore();
+                storage = firebase.storage();
+                isFirebaseInitialized = true;
+                
+                // Save config to localStorage
+                localStorage.setItem('firebaseConfig', JSON.stringify(firebaseConfig));
+                
+                updateFirebaseStatus('✅ Firebase berhasil terhubung!');
+                showNotification('Firebase berhasil diinisialisasi!');
+                
+                console.log('✅ Firebase initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Firebase initialization error:', error);
+                updateFirebaseStatus('❌ Error: ' + error.message);
+                showNotification('Error inisialisasi Firebase: ' + error.message, 'error');
+            }
+        }
+        
+        function updateFirebaseStatus(status) {
+            const statusElement = document.getElementById('firebaseStatus');
+            if (statusElement) {
+                statusElement.textContent = status;
+            }
+        }
+        
+        // Auto-load saved Firebase config
+        function loadSavedFirebaseConfig() {
+            const savedConfig = localStorage.getItem('firebaseConfig');
+            if (savedConfig) {
+                try {
+                    const config = JSON.parse(savedConfig);
+                    document.getElementById('firebaseApiKey').value = config.apiKey || '';
+                    document.getElementById('firebaseProjectId').value = config.projectId || '';
+                    document.getElementById('firebaseAppId').value = config.appId || '';
+                    
+                    // Auto-initialize if config exists
+                    if (config.apiKey && config.projectId && config.appId) {
+                        initializeFirebase();
+                    }
+                } catch (error) {
+                    console.error('Error loading saved Firebase config:', error);
+                }
+            }
+        }
+        
+        // Sync data to Firebase
+        async function syncToFirebase() {
+            if (!isFirebaseInitialized) {
+                showNotification('Firebase belum diinisialisasi!', 'error');
+                return;
+            }
+            
+            try {
+                const batch = firestore.batch();
+                
+                // Sync Mualaf Data
+                const mualafRef = firestore.collection('mualaf');
+                for (const mualaf of mualafData) {
+                    const docRef = mualafRef.doc(mualaf.id.toString());
+                    batch.set(docRef, {
+                        ...mualaf,
+                        syncedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                // Sync Schedule Data
+                const scheduleRef = firestore.collection('schedule');
+                for (const schedule of scheduleData) {
+                    const docRef = scheduleRef.doc(schedule.id.toString());
+                    batch.set(docRef, {
+                        ...schedule,
+                        syncedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                // Sync PDF Files metadata
+                const pdfRef = firestore.collection('pdf_files');
+                for (const [type, pdfData] of Object.entries(pdfFiles)) {
+                    const docRef = pdfRef.doc(type);
+                    batch.set(docRef, {
+                        type: type,
+                        name: pdfData.name,
+                        size: pdfData.size,
+                        uploadDate: pdfData.uploadDate,
+                        syncedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    // Upload PDF file to Storage
+                    if (pdfData.data) {
+                        try {
+                            const storageRef = storage.ref(`pdf_files/${type}/${pdfData.name}`);
+                            await storageRef.putString(pdfData.data, 'data_url');
+                            console.log(`✅ PDF ${type} uploaded to Storage`);
+                        } catch (storageError) {
+                            console.error(`❌ Error uploading PDF ${type}:`, storageError);
+                        }
+                    }
+                }
+                
+                await batch.commit();
+                showNotification(`Data berhasil disync ke Firebase! (${mualafData.length} mualaf, ${scheduleData.length} jadwal, ${Object.keys(pdfFiles).length} PDF)`);
+                console.log('✅ All data synced to Firebase');
+                
+            } catch (error) {
+                console.error('❌ Firebase sync error:', error);
+                showNotification('Error sync ke Firebase: ' + error.message, 'error');
+            }
+        }
+        
+        // Load data from Firebase
+        async function loadFromFirebase() {
+            if (!isFirebaseInitialized) {
+                showNotification('Firebase belum diinisialisasi!', 'error');
+                return;
+            }
+            
+            try {
+                // Load Mualaf Data
+                const mualafSnapshot = await firestore.collection('mualaf').get();
+                const firebaseMualafData = [];
+                mualafSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    delete data.syncedAt; // Remove Firebase timestamp
+                    firebaseMualafData.push(data);
+                });
+                
+                // Load Schedule Data
+                const scheduleSnapshot = await firestore.collection('schedule').get();
+                const firebaseScheduleData = [];
+                scheduleSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    delete data.syncedAt; // Remove Firebase timestamp
+                    firebaseScheduleData.push(data);
+                });
+                
+                // Load PDF Files metadata
+                const pdfSnapshot = await firestore.collection('pdf_files').get();
+                const firebasePdfFiles = {};
+                
+                for (const doc of pdfSnapshot.docs) {
+                    const pdfMeta = doc.data();
+                    const type = pdfMeta.type;
+                    
+                    try {
+                        // Download PDF file from Storage
+                        const storageRef = storage.ref(`pdf_files/${type}/${pdfMeta.name}`);
+                        const downloadURL = await storageRef.getDownloadURL();
+                        
+                        // Convert to data URL (for compatibility with existing code)
+                        const response = await fetch(downloadURL);
+                        const blob = await response.blob();
+                        const dataURL = await new Promise(resolve => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(reader.result);
+                            reader.readAsDataURL(blob);
+                        });
+                        
+                        firebasePdfFiles[type] = {
+                            name: pdfMeta.name,
+                            data: dataURL,
+                            size: pdfMeta.size,
+                            uploadDate: pdfMeta.uploadDate
+                        };
+                        
+                    } catch (storageError) {
+                        console.error(`❌ Error downloading PDF ${type}:`, storageError);
+                        // Keep metadata even if file download fails
+                        firebasePdfFiles[type] = {
+                            name: pdfMeta.name,
+                            data: null,
+                            size: pdfMeta.size,
+                            uploadDate: pdfMeta.uploadDate
+                        };
+                    }
+                }
+                
+                // Update local data
+                mualafData = firebaseMualafData;
+                scheduleData = firebaseScheduleData;
+                pdfFiles = firebasePdfFiles;
+                
+                // Update local storage as backup
+                saveToLocalStorage();
+                
+                // Update UI
+                renderMualafTable();
+                renderSchedule();
+                renderPdfSections();
+                updatePdfStatus('mualaf');
+                updatePdfStatus('nikah');
+                updateStatistics();
+                
+                showNotification(`Data berhasil dimuat dari Firebase! (${mualafData.length} mualaf, ${scheduleData.length} jadwal, ${Object.keys(pdfFiles).length} PDF)`);
+                console.log('✅ All data loaded from Firebase');
+                
+            } catch (error) {
+                console.error('❌ Firebase load error:', error);
+                showNotification('Error load dari Firebase: ' + error.message, 'error');
+            }
+        }
+        
+        // Clear Firebase data
+        async function clearFirebaseData() {
+            if (!isFirebaseInitialized) {
+                showNotification('Firebase belum diinisialisasi!', 'error');
+                return;
+            }
+            
+            const confirmClear = document.createElement('div');
+            confirmClear.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmClear.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus Firebase</h3>
+                    <p class="text-gray-600 mb-6">Yakin ingin menghapus SEMUA data di Firebase? Tindakan ini tidak dapat dibatalkan!</p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmClearFirebase(); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmClear);
+        }
+        
+        async function confirmClearFirebase() {
+            try {
+                const batch = firestore.batch();
+                
+                // Delete all mualaf documents
+                const mualafSnapshot = await firestore.collection('mualaf').get();
+                mualafSnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                
+                // Delete all schedule documents
+                const scheduleSnapshot = await firestore.collection('schedule').get();
+                scheduleSnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                
+                // Delete all PDF metadata documents
+                const pdfSnapshot = await firestore.collection('pdf_files').get();
+                pdfSnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                
+                await batch.commit();
+                
+                // Delete PDF files from Storage
+                try {
+                    const storageRef = storage.ref('pdf_files');
+                    const listResult = await storageRef.listAll();
+                    
+                    for (const folderRef of listResult.prefixes) {
+                        const folderList = await folderRef.listAll();
+                        for (const fileRef of folderList.items) {
+                            await fileRef.delete();
+                        }
+                    }
+                } catch (storageError) {
+                    console.error('❌ Error clearing Storage:', storageError);
+                }
+                
+                showNotification('Semua data Firebase berhasil dihapus!');
+                console.log('✅ All Firebase data cleared');
+                
+            } catch (error) {
+                console.error('❌ Firebase clear error:', error);
+                showNotification('Error hapus data Firebase: ' + error.message, 'error');
+            }
+        }
+
+        // Initialize SQL Database
+        function initDatabase() {
+            try {
+                if (window.openDatabase) {
+                    db = window.openDatabase('KUA_Database', '1.0', 'KUA Jayapura Utara Database', 50 * 1024 * 1024); // 50MB
+                    isWebSQLSupported = true;
+                    
+                    // Create tables
+                    db.transaction(function(tx) {
+                        // Tabel Mualaf
+                        tx.executeSql(`
+                            CREATE TABLE IF NOT EXISTS mualaf (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                name TEXT NOT NULL,
+                                date TEXT NOT NULL,
+                                ustadz TEXT NOT NULL,
+                                region TEXT NOT NULL,
+                                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                            )
+                        `);
+                        
+                        // Tabel Jadwal Nikah
+                        tx.executeSql(`
+                            CREATE TABLE IF NOT EXISTS schedule (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                groom TEXT NOT NULL,
+                                bride TEXT NOT NULL,
+                                date TEXT NOT NULL,
+                                time TEXT NOT NULL,
+                                location TEXT NOT NULL,
+                                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                            )
+                        `);
+                        
+                        // Tabel File PDF
+                        tx.executeSql(`
+                            CREATE TABLE IF NOT EXISTS pdf_files (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                type TEXT UNIQUE NOT NULL,
+                                name TEXT NOT NULL,
+                                data TEXT NOT NULL,
+                                size INTEGER NOT NULL,
+                                upload_date DATETIME DEFAULT CURRENT_TIMESTAMP
+                            )
+                        `);
+                    });
+                    
+                    updateDatabaseStatus('✅ Web SQL Database aktif - Kapasitas 50MB');
+                    console.log('✅ Web SQL Database initialized successfully');
+                    return true;
+                } else {
+                    throw new Error('Web SQL not supported');
+                }
+            } catch (error) {
+                console.log('⚠️ Web SQL not supported, falling back to localStorage');
+                isWebSQLSupported = false;
+                loadFromLocalStorage();
+                updateDatabaseStatus('⚠️ localStorage aktif - Kapasitas terbatas (~5MB)');
+                return false;
+            }
+        }
+
+        // Load data from localStorage (fallback)
+        function loadFromLocalStorage() {
+            mualafData = JSON.parse(localStorage.getItem('mualafData')) || [];
+            scheduleData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+            pdfFiles = JSON.parse(localStorage.getItem('pdfFiles')) || {};
+        }
+
+        // Save to localStorage (fallback)
+        function saveToLocalStorage() {
             localStorage.setItem('mualafData', JSON.stringify(mualafData));
             localStorage.setItem('scheduleData', JSON.stringify(scheduleData));
             localStorage.setItem('pdfFiles', JSON.stringify(pdfFiles));
+        }
+
+        // Update database status display
+        function updateDatabaseStatus(status) {
+            const statusElement = document.getElementById('dbStatus');
+            if (statusElement) {
+                statusElement.textContent = status;
+            }
+        }
+
+        // SQL Functions for Mualaf
+        function addMualafToSQL(mualafObj) {
+            if (!isWebSQLSupported) {
+                mualafData.push({...mualafObj, id: Date.now()});
+                saveToLocalStorage();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'INSERT INTO mualaf (name, date, ustadz, region) VALUES (?, ?, ?, ?)',
+                    [mualafObj.name, mualafObj.date, mualafObj.ustadz, mualafObj.region],
+                    function(tx, result) {
+                        console.log('✅ Mualaf data inserted to SQL');
+                        loadMualafFromSQL();
+                    },
+                    function(tx, error) {
+                        console.error('❌ Error inserting mualaf:', error);
+                    }
+                );
+            });
+        }
+
+        function loadMualafFromSQL() {
+            if (!isWebSQLSupported) {
+                renderMualafTable();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'SELECT * FROM mualaf ORDER BY created_at DESC',
+                    [],
+                    function(tx, result) {
+                        mualafData = [];
+                        for (let i = 0; i < result.rows.length; i++) {
+                            mualafData.push(result.rows.item(i));
+                        }
+                        renderMualafTable();
+                        updateStatistics();
+                    }
+                );
+            });
+        }
+
+        function deleteMualafFromSQL(id) {
+            if (!isWebSQLSupported) {
+                mualafData = mualafData.filter(item => item.id !== id);
+                saveToLocalStorage();
+                renderMualafTable();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'DELETE FROM mualaf WHERE id = ?',
+                    [id],
+                    function(tx, result) {
+                        console.log('✅ Mualaf deleted from SQL');
+                        loadMualafFromSQL();
+                    }
+                );
+            });
+        }
+
+        // SQL Functions for Schedule
+        function addScheduleToSQL(scheduleObj) {
+            if (!isWebSQLSupported) {
+                scheduleData.push({...scheduleObj, id: Date.now()});
+                saveToLocalStorage();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'INSERT INTO schedule (groom, bride, date, time, location) VALUES (?, ?, ?, ?, ?)',
+                    [scheduleObj.groom, scheduleObj.bride, scheduleObj.date, scheduleObj.time, scheduleObj.location],
+                    function(tx, result) {
+                        console.log('✅ Schedule data inserted to SQL');
+                        loadScheduleFromSQL();
+                    }
+                );
+            });
+        }
+
+        function loadScheduleFromSQL() {
+            if (!isWebSQLSupported) {
+                renderSchedule();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'SELECT * FROM schedule ORDER BY date ASC',
+                    [],
+                    function(tx, result) {
+                        scheduleData = [];
+                        for (let i = 0; i < result.rows.length; i++) {
+                            scheduleData.push(result.rows.item(i));
+                        }
+                        renderSchedule();
+                        updateStatistics();
+                    }
+                );
+            });
+        }
+
+        function deleteScheduleFromSQL(id) {
+            if (!isWebSQLSupported) {
+                scheduleData = scheduleData.filter(item => item.id !== id);
+                saveToLocalStorage();
+                renderSchedule();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'DELETE FROM schedule WHERE id = ?',
+                    [id],
+                    function(tx, result) {
+                        console.log('✅ Schedule deleted from SQL');
+                        loadScheduleFromSQL();
+                    }
+                );
+            });
+        }
+
+        // SQL Functions for PDF
+        function savePDFToSQL(type, pdfData) {
+            if (!isWebSQLSupported) {
+                pdfFiles[type] = pdfData;
+                saveToLocalStorage();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'INSERT OR REPLACE INTO pdf_files (type, name, data, size) VALUES (?, ?, ?, ?)',
+                    [type, pdfData.name, pdfData.data, pdfData.size],
+                    function(tx, result) {
+                        console.log('✅ PDF saved to SQL');
+                        loadPDFFromSQL();
+                    }
+                );
+            });
+        }
+
+        function loadPDFFromSQL() {
+            if (!isWebSQLSupported) {
+                renderPdfSections();
+                updatePdfStatus('mualaf');
+                updatePdfStatus('nikah');
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'SELECT * FROM pdf_files',
+                    [],
+                    function(tx, result) {
+                        pdfFiles = {};
+                        for (let i = 0; i < result.rows.length; i++) {
+                            const row = result.rows.item(i);
+                            pdfFiles[row.type] = {
+                                name: row.name,
+                                data: row.data,
+                                size: row.size,
+                                uploadDate: row.upload_date
+                            };
+                        }
+                        renderPdfSections();
+                        updatePdfStatus('mualaf');
+                        updatePdfStatus('nikah');
+                        updateStatistics();
+                    }
+                );
+            });
+        }
+
+        function deletePDFFromSQL(type) {
+            if (!isWebSQLSupported) {
+                delete pdfFiles[type];
+                saveToLocalStorage();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'DELETE FROM pdf_files WHERE type = ?',
+                    [type],
+                    function(tx, result) {
+                        console.log('✅ PDF deleted from SQL');
+                        loadPDFFromSQL();
+                    }
+                );
+            });
         }
 
         // Navigation
@@ -960,9 +1710,7 @@
         }
 
         function confirmDeleteMualaf(id) {
-            mualafData = mualafData.filter(item => item.id !== id);
-            saveData();
-            renderMualafTable();
+            deleteMualafFromSQL(id);
             showNotification('Data mualaf berhasil dihapus!');
         }
 
@@ -993,10 +1741,322 @@
         }
 
         function confirmClearAllMualaf() {
-            mualafData = [];
-            saveData();
-            renderMualafTable();
+            if (!isWebSQLSupported) {
+                mualafData = [];
+                saveToLocalStorage();
+                renderMualafTable();
+            } else {
+                db.transaction(function(tx) {
+                    tx.executeSql('DELETE FROM mualaf', [], function(tx, result) {
+                        loadMualafFromSQL();
+                    });
+                });
+            }
             showNotification('Semua data mualaf berhasil dihapus!');
+        }
+
+        // Database Import/Export Functions
+        function exportDatabase() {
+            const exportData = {
+                version: '1.0',
+                timestamp: new Date().toISOString(),
+                database_type: isWebSQLSupported ? 'WebSQL' : 'localStorage',
+                data: {
+                    mualaf: mualafData,
+                    schedule: scheduleData,
+                    pdf_files: pdfFiles
+                },
+                statistics: {
+                    mualaf_count: mualafData.length,
+                    schedule_count: scheduleData.length,
+                    pdf_count: Object.keys(pdfFiles).length,
+                    total_size: calculateTotalSize()
+                }
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `KUA_Database_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification(`Database berhasil diexport! File: ${link.download}`);
+        }
+
+        function importDatabase() {
+            const fileInput = document.getElementById('importDbFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Silakan pilih file JSON database terlebih dahulu!', 'error');
+                return;
+            }
+            
+            if (file.type !== 'application/json') {
+                showNotification('File harus berformat JSON!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // Validate import data structure
+                    if (!importData.data || !importData.data.mualaf || !importData.data.schedule) {
+                        throw new Error('Format database tidak valid');
+                    }
+                    
+                    // Confirm import
+                    const confirmImport = document.createElement('div');
+                    confirmImport.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                    confirmImport.innerHTML = `
+                        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                            <h3 class="text-lg font-semibold mb-4">Konfirmasi Import Database</h3>
+                            <div class="text-sm text-gray-600 mb-4">
+                                <p><strong>File:</strong> ${file.name}</p>
+                                <p><strong>Tanggal Backup:</strong> ${new Date(importData.timestamp).toLocaleDateString('id-ID')}</p>
+                                <p><strong>Data Mualaf:</strong> ${importData.data.mualaf.length} record</p>
+                                <p><strong>Jadwal Nikah:</strong> ${importData.data.schedule.length} record</p>
+                                <p><strong>File PDF:</strong> ${Object.keys(importData.data.pdf_files || {}).length} file</p>
+                            </div>
+                            <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mb-4">
+                                <p class="text-yellow-800 text-sm">⚠️ <strong>Peringatan:</strong> Import akan mengganti semua data yang ada!</p>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                                    Batal
+                                </button>
+                                <button onclick="confirmImportDatabase(${JSON.stringify(importData).replace(/"/g, '&quot;')}); this.closest('.fixed').remove()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors">
+                                    Import
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(confirmImport);
+                    
+                } catch (error) {
+                    showNotification('File JSON tidak valid atau rusak!', 'error');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function confirmImportDatabase(importData) {
+            try {
+                if (isWebSQLSupported) {
+                    // Clear existing data and import to SQL
+                    db.transaction(function(tx) {
+                        // Clear tables
+                        tx.executeSql('DELETE FROM mualaf');
+                        tx.executeSql('DELETE FROM schedule');
+                        tx.executeSql('DELETE FROM pdf_files');
+                        
+                        // Import mualaf data
+                        importData.data.mualaf.forEach(item => {
+                            tx.executeSql(
+                                'INSERT INTO mualaf (name, date, ustadz, region) VALUES (?, ?, ?, ?)',
+                                [item.name, item.date, item.ustadz, item.region]
+                            );
+                        });
+                        
+                        // Import schedule data
+                        importData.data.schedule.forEach(item => {
+                            tx.executeSql(
+                                'INSERT INTO schedule (groom, bride, date, time, location) VALUES (?, ?, ?, ?, ?)',
+                                [item.groom, item.bride, item.date, item.time, item.location]
+                            );
+                        });
+                        
+                        // Import PDF files
+                        Object.keys(importData.data.pdf_files || {}).forEach(type => {
+                            const pdf = importData.data.pdf_files[type];
+                            tx.executeSql(
+                                'INSERT INTO pdf_files (type, name, data, size) VALUES (?, ?, ?, ?)',
+                                [type, pdf.name, pdf.data, pdf.size]
+                            );
+                        });
+                    }, function(error) {
+                        console.error('SQL Import error:', error);
+                        showNotification('Error saat import ke SQL database!', 'error');
+                    }, function() {
+                        // Success callback
+                        loadMualafFromSQL();
+                        loadScheduleFromSQL();
+                        loadPDFFromSQL();
+                        showNotification('Database berhasil diimport ke SQL!');
+                    });
+                } else {
+                    // Import to localStorage
+                    mualafData = importData.data.mualaf;
+                    scheduleData = importData.data.schedule;
+                    pdfFiles = importData.data.pdf_files || {};
+                    
+                    saveToLocalStorage();
+                    renderMualafTable();
+                    renderSchedule();
+                    renderPdfSections();
+                    updatePdfStatus('mualaf');
+                    updatePdfStatus('nikah');
+                    updateStatistics();
+                    
+                    showNotification('Database berhasil diimport ke localStorage!');
+                }
+                
+                // Clear file input
+                document.getElementById('importDbFile').value = '';
+                
+            } catch (error) {
+                console.error('Import error:', error);
+                showNotification('Error saat import database!', 'error');
+            }
+        }
+
+        function loadSampleData() {
+            const sampleData = {
+                mualaf: [
+                    {
+                        name: 'John Wamafma',
+                        date: '2024-01-15',
+                        ustadz: 'Ustadz Ahmad Hidayat',
+                        region: 'Jayapura Utara'
+                    },
+                    {
+                        name: 'Maria Tekege',
+                        date: '2024-02-20',
+                        ustadz: 'Ustadz Muhammad Yusuf',
+                        region: 'Sentani'
+                    },
+                    {
+                        name: 'David Kogoya',
+                        date: '2024-03-10',
+                        ustadz: 'Ustadz Ahmad Hidayat',
+                        region: 'Abepura'
+                    }
+                ],
+                schedule: [
+                    {
+                        groom: 'Ahmad Rizki',
+                        bride: 'Siti Aminah',
+                        date: '2024-12-25',
+                        time: '08:00',
+                        location: 'KUA Jayapura Utara'
+                    },
+                    {
+                        groom: 'Muhammad Fajar',
+                        bride: 'Dewi Sartika',
+                        date: '2024-12-30',
+                        time: '09:00',
+                        location: 'Masjid Al-Ikhlas Sentani'
+                    }
+                ]
+            };
+            
+            const confirmLoad = document.createElement('div');
+            confirmLoad.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmLoad.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Muat Data Contoh</h3>
+                    <p class="text-gray-600 mb-4">Akan memuat ${sampleData.mualaf.length} data mualaf dan ${sampleData.schedule.length} jadwal nikah contoh.</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                        <p class="text-blue-800 text-sm">ℹ️ Data contoh akan ditambahkan ke data yang sudah ada.</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmLoadSampleData(); this.closest('.fixed').remove()" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded transition-colors">
+                            Muat Data
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmLoad);
+        }
+
+        function confirmLoadSampleData() {
+            const sampleData = {
+                mualaf: [
+                    {
+                        name: 'John Wamafma',
+                        date: '2024-01-15',
+                        ustadz: 'Ustadz Ahmad Hidayat',
+                        region: 'Jayapura Utara'
+                    },
+                    {
+                        name: 'Maria Tekege',
+                        date: '2024-02-20',
+                        ustadz: 'Ustadz Muhammad Yusuf',
+                        region: 'Sentani'
+                    },
+                    {
+                        name: 'David Kogoya',
+                        date: '2024-03-10',
+                        ustadz: 'Ustadz Ahmad Hidayat',
+                        region: 'Abepura'
+                    }
+                ],
+                schedule: [
+                    {
+                        groom: 'Ahmad Rizki',
+                        bride: 'Siti Aminah',
+                        date: '2024-12-25',
+                        time: '08:00',
+                        location: 'KUA Jayapura Utara'
+                    },
+                    {
+                        groom: 'Muhammad Fajar',
+                        bride: 'Dewi Sartika',
+                        date: '2024-12-30',
+                        time: '09:00',
+                        location: 'Masjid Al-Ikhlas Sentani'
+                    }
+                ]
+            };
+            
+            // Add sample mualaf data
+            sampleData.mualaf.forEach(item => {
+                addMualafToSQL(item);
+            });
+            
+            // Add sample schedule data
+            sampleData.schedule.forEach(item => {
+                addScheduleToSQL(item);
+            });
+            
+            showNotification('Data contoh berhasil dimuat!');
+        }
+
+        function calculateTotalSize() {
+            let totalSize = 0;
+            
+            // Calculate mualaf data size
+            totalSize += JSON.stringify(mualafData).length;
+            
+            // Calculate schedule data size
+            totalSize += JSON.stringify(scheduleData).length;
+            
+            // Calculate PDF files size
+            Object.values(pdfFiles).forEach(pdf => {
+                totalSize += pdf.size || 0;
+            });
+            
+            return totalSize;
+        }
+
+        function updateStatistics() {
+            document.getElementById('mualafCount').textContent = mualafData.length;
+            document.getElementById('scheduleCount').textContent = scheduleData.length;
+            document.getElementById('pdfCount').textContent = Object.keys(pdfFiles).length;
+            
+            const totalSize = calculateTotalSize();
+            const sizeInKB = (totalSize / 1024).toFixed(1);
+            document.getElementById('totalSize').textContent = `${sizeInKB} KB`;
         }
 
         // Schedule Rendering with Delete functionality
@@ -1074,9 +2134,7 @@
         }
 
         function confirmDeleteSchedule(id) {
-            scheduleData = scheduleData.filter(item => item.id !== id);
-            saveData();
-            renderSchedule();
+            deleteScheduleFromSQL(id);
             showNotification('Jadwal nikah berhasil dihapus!');
         }
 
@@ -1107,9 +2165,17 @@
         }
 
         function confirmClearAllSchedule() {
-            scheduleData = [];
-            saveData();
-            renderSchedule();
+            if (!isWebSQLSupported) {
+                scheduleData = [];
+                saveToLocalStorage();
+                renderSchedule();
+            } else {
+                db.transaction(function(tx) {
+                    tx.executeSql('DELETE FROM schedule', [], function(tx, result) {
+                        loadScheduleFromSQL();
+                    });
+                });
+            }
             showNotification('Semua jadwal nikah berhasil dihapus!');
         }
 
@@ -1144,15 +2210,13 @@
             
             const reader = new FileReader();
             reader.onload = function(e) {
-                pdfFiles[type] = {
+                const pdfData = {
                     name: file.name,
                     data: e.target.result,
                     uploadDate: new Date().toISOString(),
                     size: file.size
                 };
-                saveData();
-                updatePdfStatus(type);
-                renderPdfSections();
+                savePDFToSQL(type, pdfData);
                 showNotification(`PDF ${type} berhasil diupload!`);
                 fileInput.value = ''; // Clear input
             };
@@ -1201,10 +2265,7 @@
         }
         
         function confirmDeletePDF(type) {
-            delete pdfFiles[type];
-            saveData();
-            updatePdfStatus(type);
-            renderPdfSections();
+            deletePDFFromSQL(type);
             showNotification(`PDF ${type} berhasil dihapus!`);
         }
         
@@ -1321,15 +2382,13 @@
         document.getElementById('mualafForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const newMualaf = {
-                id: Date.now(), // Use timestamp as unique ID
                 name: document.getElementById('mualafName').value,
                 date: document.getElementById('mualafDate').value,
                 ustadz: document.getElementById('mualafUstadz').value,
                 region: document.getElementById('mualafRegion').value
             };
             
-            mualafData.push(newMualaf);
-            saveData();
+            addMualafToSQL(newMualaf);
             document.getElementById('mualafForm').reset();
             showNotification('Data mualaf berhasil ditambahkan!');
         });
@@ -1337,7 +2396,6 @@
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const newSchedule = {
-                id: Date.now(), // Use timestamp as unique ID
                 groom: document.getElementById('groomName').value,
                 bride: document.getElementById('brideName').value,
                 date: document.getElementById('weddingDate').value,
@@ -1345,8 +2403,7 @@
                 location: document.getElementById('weddingLocation').value
             };
             
-            scheduleData.push(newSchedule);
-            saveData();
+            addScheduleToSQL(newSchedule);
             document.getElementById('scheduleForm').reset();
             showNotification('Jadwal nikah berhasil ditambahkan!');
         });
@@ -1417,19 +2474,38 @@
                 btn.classList.add('text-gray-300');
             });
             
-            showNotification(`Terima kasih ${name}! Tanggapan Anda telah dikirim dan akan membantu kami meningkatkan pelayanan.`);
+            showNotification(`Terima kasih ${name}! Saran dan masukan Anda telah dikirim dan akan membantu kami meningkatkan pelayanan.`);
         });
 
-        // Initialize
+        // Initialize (Updated untuk SQL + Firebase)
         document.addEventListener('DOMContentLoaded', () => {
+            // Load saved Firebase config
+            loadSavedFirebaseConfig();
+            
+            // Inisialisasi database SQL
+            const sqlSupported = initDatabase();
+            
+            if (sqlSupported) {
+                // Load data dari SQL
+                setTimeout(() => {
+                    loadMualafFromSQL();
+                    loadScheduleFromSQL();
+                    loadPDFFromSQL();
+                    updateStatistics();
+                }, 100);
+            } else {
+                // Fallback ke localStorage
+                renderMualafTable();
+                renderSchedule();
+                renderPdfSections();
+                updatePdfStatus('mualaf');
+                updatePdfStatus('nikah');
+                updateStatistics();
+            }
+            
             showSection('home');
             document.querySelector('[data-section="home"]').classList.add('border-green-200', 'text-green-200');
-            
-            // Initialize PDF sections
-            renderPdfSections();
-            updatePdfStatus('mualaf');
-            updatePdfStatus('nikah');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993e20dbd5e59fbc',t:'MTc2MTM1NzcxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9949471261b989a1',t:'MTc2MTQ3NDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
