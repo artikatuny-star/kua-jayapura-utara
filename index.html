@@ -83,7 +83,7 @@
         <!-- Home Section -->
         <section id="home" class="section-content fade-in">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">SELAMAT DATANG DI KUA JAYAPURA UTARA</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Selamat Datang di KUA Jayapura Utara</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Sistem informasi terintegrasi untuk layanan KUA Kecamatan Jayapura Utara. 
                     Melayani masyarakat Papua dengan sepenuh hati dalam urusan keagamaan, pernikahan, dan pembinaan mualaf.
@@ -94,11 +94,12 @@
             <div class="mb-12">
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="h-64 relative overflow-hidden">
-                        <img src="https://example.com/kua-jayapura-utara.jpg" 
+                        <img id="kuaMainPhoto" src="" 
                              alt="Gedung KUA Jayapura Utara" 
                              class="w-full h-full object-cover"
+                             style="display: none;"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="w-full h-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center absolute top-0 left-0" style="display: none;">
+                        <div id="kuaPhotoPlaceholder" class="w-full h-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center">
                             <svg class="w-32 h-32 text-white opacity-20 absolute" viewBox="0 0 200 200" fill="currentColor">
                                 <rect x="20" y="80" width="160" height="100" rx="8"/>
                                 <rect x="40" y="60" width="120" height="40" rx="4"/>
@@ -112,19 +113,19 @@
                             </svg>
                             <div class="text-center z-10">
                                 <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
-                                <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                                <p class="text-green-100">Melayani Masyarakat Papua dengan Sepenuh Hati</p>
                             </div>
                         </div>
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
                             <h3 class="text-3xl font-bold text-white mb-2">KUA Jayapura Utara</h3>
-                            <p class="text-green-100">Gedung Kantor Urusan Agama Kecamatan Jayapura Utara</p>
+                            <p class="text-green-100">Melayani Masyarakat Papua dengan Sepenuh Hati</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📍 Alamat</h4>
-                                <p class="text-gray-600">Jl. Raya Sentani No. 45, Jayapura Utara, Kota Jayapura, Papua 99351</p>
+                                <p class="text-gray-600">FPRG+G5Q, Tj. Ria, Kec. Jayapura Utara, Kota Jayapura, Papua 99117</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">📞 Kontak</h4>
@@ -758,6 +759,26 @@
         </div>
         
         <div class="p-6">
+            <!-- Upload Photo Section -->
+            <div class="bg-white border rounded-xl p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-6">📸 Kelola Foto KUA</h3>
+                <div class="border border-gray-200 rounded-lg p-4 mb-6">
+                    <h4 class="font-medium mb-3">Upload Foto Gedung KUA</h4>
+                    <div class="space-y-3">
+                        <input type="file" id="kuaPhotoFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                        <button onclick="uploadKuaPhoto()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                            Upload Foto Gedung KUA
+                        </button>
+                        <div id="kuaPhotoStatus" class="text-sm"></div>
+                        <div class="flex space-x-2 mt-3">
+                            <button onclick="deleteKuaPhoto()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                                Hapus Foto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Upload PDF Section -->
             <div class="bg-white border rounded-xl p-6 mb-8">
                 <h3 class="text-xl font-semibold mb-6">📄 Kelola File PDF Persyaratan</h3>
@@ -1032,6 +1053,7 @@
         let mualafData = [];
         let scheduleData = [];
         let pdfFiles = {};
+        let kuaPhoto = null;
         
         // Firebase Variables
         let firebaseApp = null;
@@ -1383,6 +1405,17 @@
                                 upload_date DATETIME DEFAULT CURRENT_TIMESTAMP
                             )
                         `);
+                        
+                        // Tabel Foto KUA
+                        tx.executeSql(`
+                            CREATE TABLE IF NOT EXISTS kua_photo (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                name TEXT NOT NULL,
+                                data TEXT NOT NULL,
+                                size INTEGER NOT NULL,
+                                upload_date DATETIME DEFAULT CURRENT_TIMESTAMP
+                            )
+                        `);
                     });
                     
                     updateDatabaseStatus('✅ Web SQL Database aktif - Kapasitas 50MB');
@@ -1405,6 +1438,7 @@
             mualafData = JSON.parse(localStorage.getItem('mualafData')) || [];
             scheduleData = JSON.parse(localStorage.getItem('scheduleData')) || [];
             pdfFiles = JSON.parse(localStorage.getItem('pdfFiles')) || {};
+            kuaPhoto = JSON.parse(localStorage.getItem('kuaPhoto')) || null;
         }
 
         // Save to localStorage (fallback)
@@ -1412,6 +1446,7 @@
             localStorage.setItem('mualafData', JSON.stringify(mualafData));
             localStorage.setItem('scheduleData', JSON.stringify(scheduleData));
             localStorage.setItem('pdfFiles', JSON.stringify(pdfFiles));
+            localStorage.setItem('kuaPhoto', JSON.stringify(kuaPhoto));
         }
 
         // Update database status display
@@ -2188,6 +2223,170 @@
             renderSchedule(e.target.value);
         });
 
+        // Photo Management Functions
+        function uploadKuaPhoto() {
+            const fileInput = document.getElementById('kuaPhotoFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Silakan pilih file foto terlebih dahulu!', 'error');
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification('File harus berformat gambar (JPG, PNG, dll)!', 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('Ukuran file maksimal 5MB!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const photoData = {
+                    name: file.name,
+                    data: e.target.result,
+                    uploadDate: new Date().toISOString(),
+                    size: file.size
+                };
+                saveKuaPhotoToSQL(photoData);
+                showNotification('Foto KUA berhasil diupload!');
+                fileInput.value = ''; // Clear input
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function saveKuaPhotoToSQL(photoData) {
+            if (!isWebSQLSupported) {
+                kuaPhoto = photoData;
+                saveToLocalStorage();
+                updateKuaPhotoDisplay();
+                updateKuaPhotoStatus();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'DELETE FROM kua_photo', // Remove old photo first
+                    [],
+                    function(tx, result) {
+                        tx.executeSql(
+                            'INSERT INTO kua_photo (name, data, size) VALUES (?, ?, ?)',
+                            [photoData.name, photoData.data, photoData.size],
+                            function(tx, result) {
+                                console.log('✅ KUA Photo saved to SQL');
+                                loadKuaPhotoFromSQL();
+                            }
+                        );
+                    }
+                );
+            });
+        }
+        
+        function loadKuaPhotoFromSQL() {
+            if (!isWebSQLSupported) {
+                updateKuaPhotoDisplay();
+                updateKuaPhotoStatus();
+                return;
+            }
+            
+            db.transaction(function(tx) {
+                tx.executeSql(
+                    'SELECT * FROM kua_photo ORDER BY upload_date DESC LIMIT 1',
+                    [],
+                    function(tx, result) {
+                        if (result.rows.length > 0) {
+                            const row = result.rows.item(0);
+                            kuaPhoto = {
+                                name: row.name,
+                                data: row.data,
+                                size: row.size,
+                                uploadDate: row.upload_date
+                            };
+                        } else {
+                            kuaPhoto = null;
+                        }
+                        updateKuaPhotoDisplay();
+                        updateKuaPhotoStatus();
+                    }
+                );
+            });
+        }
+        
+        function deleteKuaPhoto() {
+            if (!kuaPhoto) {
+                showNotification('Tidak ada foto untuk dihapus!', 'error');
+                return;
+            }
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDelete.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus Foto</h3>
+                    <p class="text-gray-600 mb-6">Yakin ingin menghapus foto "${kuaPhoto.name}"?</p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition-colors">
+                            Batal
+                        </button>
+                        <button onclick="confirmDeleteKuaPhoto(); this.closest('.fixed').remove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors">
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+        }
+        
+        function confirmDeleteKuaPhoto() {
+            if (!isWebSQLSupported) {
+                kuaPhoto = null;
+                saveToLocalStorage();
+                updateKuaPhotoDisplay();
+                updateKuaPhotoStatus();
+            } else {
+                db.transaction(function(tx) {
+                    tx.executeSql('DELETE FROM kua_photo', [], function(tx, result) {
+                        loadKuaPhotoFromSQL();
+                    });
+                });
+            }
+            showNotification('Foto KUA berhasil dihapus!');
+        }
+        
+        function updateKuaPhotoStatus() {
+            const statusDiv = document.getElementById('kuaPhotoStatus');
+            if (kuaPhoto) {
+                const uploadDate = new Date(kuaPhoto.uploadDate).toLocaleDateString('id-ID');
+                const fileSize = (kuaPhoto.size / 1024).toFixed(1);
+                statusDiv.innerHTML = `
+                    <div class="text-green-600">
+                        ✅ <strong>${kuaPhoto.name}</strong><br>
+                        <span class="text-xs">Upload: ${uploadDate} | ${fileSize} KB</span>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = `<div class="text-gray-500">📸 Belum ada foto</div>`;
+            }
+        }
+        
+        function updateKuaPhotoDisplay() {
+            // Update the main photo display on homepage
+            const photoImg = document.getElementById('kuaMainPhoto');
+            const placeholder = document.getElementById('kuaPhotoPlaceholder');
+            
+            if (kuaPhoto && photoImg && placeholder) {
+                photoImg.src = kuaPhoto.data;
+                photoImg.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else if (photoImg && placeholder) {
+                photoImg.style.display = 'none';
+                placeholder.style.display = 'flex';
+            }
+        }
+
         // PDF Management Functions
         function uploadPDF(type) {
             const fileInput = document.getElementById(`${type}PdfFile`);
@@ -2491,6 +2690,7 @@
                     loadMualafFromSQL();
                     loadScheduleFromSQL();
                     loadPDFFromSQL();
+                    loadKuaPhotoFromSQL();
                     updateStatistics();
                 }, 100);
             } else {
@@ -2500,6 +2700,8 @@
                 renderPdfSections();
                 updatePdfStatus('mualaf');
                 updatePdfStatus('nikah');
+                updateKuaPhotoDisplay();
+                updateKuaPhotoStatus();
                 updateStatistics();
             }
             
@@ -2507,5 +2709,5 @@
             document.querySelector('[data-section="home"]').classList.add('border-green-200', 'text-green-200');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9949471261b989a1',t:'MTc2MTQ3NDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994e86fae72afd32',t:'MTc2MTUyOTY2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
